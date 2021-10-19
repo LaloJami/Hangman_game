@@ -1,4 +1,5 @@
 import random
+import os
 
 def print_title():
   text_title = """
@@ -26,16 +27,43 @@ def print_title():
   """
   return print(text_title)
 
+def compare_word(word, word_dic, letter):
+  if letter in word_dic and word_dic[letter] == False:
+    word_dic[letter] = True
+    msg = "Great!"
+    update_word_screen(word,word_dic, msg)
+    return word_dic
+  elif letter in word_dic and word_dic[letter] == True:
+    msg = "You already select this letter"
+    update_word_screen(word,word_dic, msg)
+    return word_dic
+  elif letter not in word_dic:
+    msg = "ups, select other letter."
+    update_word_screen(word,word_dic, msg)
+    return word_dic
+  
+
 def input_letter():
+  words = read_file()
+  w = select_word(words)
+  d = dictionary_words(w)
+  word = d
+  update_word_screen(w, word)
   while True:
     try:
       letter = input("Type a letter and press enter.\n")
       if letter.isnumeric() == True:
+        msg="You must type a letter, not a number"
+        update_word_screen(w,word, msg)
         raise ValueError
-      print(letter)
-      break
+      word = compare_word(w, word, letter)
+      if False not in word.values():
+        msg = "Congratulation!"
+        update_word_screen(w,word, msg)
+        break
     except ValueError:
-      print("You must type a letter, not a number")
+      pass
+      
 
 def read_file():
   words = []
@@ -49,13 +77,30 @@ def read_file():
     return words
 
 def select_word(word_list):
-  random_word = word_list[random.randint(0,len(word_list))]
+  random_word = word_list[random.randint(0,len(word_list)-1)]
+  random_word = random_word[:-1]
   return random_word
 
-def run():
+def dictionary_words(list_word):
+  dic_word = {word: False for word in list_word}
+  return dic_word
+
+def update_word_screen(word, word_dic, msg = '#'):
+  os.system("clear")
   print_title()
-  words = read_file()
-  print(select_word(words))
+  print('Your word has '+str(len(word))+' letters:')
+  word_show = ''
+  for n in word:
+    if word_dic[n] == False:
+      word_show += '_'
+    else:
+      word_show += n
+
+  if msg != '#':
+    word_show += '\n' + msg
+  print(word_show)
+
+def run():
   input_letter()
 
 if __name__ == '__main__':
