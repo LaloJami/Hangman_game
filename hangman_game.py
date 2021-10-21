@@ -100,6 +100,10 @@ def update_word_screen(word, word_dic, msg = '#'):
     word_show += '\n' + msg
   print(word_show)
 
+def level_game():
+  level = input('Select your level! basic - medium - expert')
+  return level
+
 def run():
   input_letter()
 
