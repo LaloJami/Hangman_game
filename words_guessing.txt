@@ -1,5 +1,5 @@
 chocolate
-Everybody
+everybody
 conversation
 habit
 command
@@ -11,3 +11,10 @@ human
 song
 movie
 city
+student
+dog
+guitar
+school
+monkey
+apple
+watermelon
